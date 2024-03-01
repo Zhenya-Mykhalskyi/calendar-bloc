@@ -28,7 +28,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final CalendarFormat calendarFormat =
+        MediaQuery.of(context).orientation == Orientation.landscape
+            ? CalendarFormat.twoWeeks
+            : CalendarFormat.month;
     DateTime focusedDay = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,6 +49,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             builder: (context, state) {
               if (state is CalendarLoaded) {
                 return TableCalendar(
+                  calendarFormat: calendarFormat,
                   headerStyle: const HeaderStyle(
                     formatButtonVisible: false,
                     titleCentered: true,
