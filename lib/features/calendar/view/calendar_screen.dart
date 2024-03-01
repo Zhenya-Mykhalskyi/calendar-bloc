@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
+import 'package:keym_calendar/features/calendar/widgets/add_event_button.dart';
+import 'package:keym_calendar/features/day_events/view/day_events_screen.dart';
 import 'package:keym_calendar/repositories/calendar/abstarct_calendar_repository.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
@@ -31,16 +33,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/addEventScreen');
-            },
-          )
+        actions: const [
+          AddEventButton(),
         ],
       ),
       body: BlocBuilder<CalendarBloc, CalendarState>(
@@ -49,12 +43,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           if (state is CalendarLoaded) {
             return TableCalendar(
               onDaySelected: (selectedDay, focusedDay) {
-                Navigator.of(context).pushNamed('/eventListScreen');
-                // BlocProvider.of<CalendarBloc>(context).add(
-                //   LoadEventsForDay(
-                //     selectedDay,
-                //   ),
-                // );
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DayEventsScreen(
+                          selectedDate: selectedDay,
+                        )));
               },
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),

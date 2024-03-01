@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:keym_calendar/repositories/calendar/abstarct_calendar_repository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,28 +25,47 @@ class CalendarRepository extends AbstractCalendarRepository {
       );
     } else {
       await _database!.execute('DROP TABLE IF EXISTS events');
-      log('dropdatabase');
+
       await _database!.execute(
         'CREATE TABLE events(id INTEGER PRIMARY KEY, dateTime TEXT, title TEXT, description TEXT, photoPath TEXT)',
       );
-      log('new database');
     }
 
-    // Вставляємо дані в таблицю
     final List<Event> eventsToInsert = [
       Event(
         id: 1,
-        dateTime: DateTime.now(),
+        dateTime: DateTime(2024, 3, 1),
         title: 'Перша подія',
         description: 'Опис першої події',
-        photoPath: 'шлях_до_фото_1.jpg',
+        photoPath: 'https://www.imgonline.com.ua/examples/bee-on-daisy.jpg',
       ),
       Event(
         id: 2,
-        dateTime: DateTime.now().add(const Duration(days: 1)),
+        dateTime: DateTime(2024, 3, 2),
         title: 'Друга подія',
         description: 'Опис другої події',
-        photoPath: 'шлях_до_фото_2.jpg',
+        photoPath: 'https://www.imgonline.com.ua/examples/bee-on-daisy.jpg',
+      ),
+      Event(
+        id: 3,
+        dateTime: DateTime(2024, 3, 16),
+        title: 'Третя подія',
+        description: 'Опис другої події',
+        photoPath: 'https://www.imgonline.com.ua/examples/bee-on-daisy.jpg',
+      ),
+      Event(
+        id: 4,
+        dateTime: DateTime(2024, 3, 18),
+        title: 'Четверта подія',
+        description: 'Опис другої події',
+        photoPath: 'https://www.imgonline.com.ua/examples/bee-on-daisy.jpg',
+      ),
+      Event(
+        id: 5,
+        dateTime: DateTime(2024, 3, 18),
+        title: 'Пʼята подія',
+        description: 'Опис другої події',
+        photoPath: 'https://www.imgonline.com.ua/examples/bee-on-daisy.jpg',
       ),
     ];
 
@@ -79,27 +97,16 @@ class CalendarRepository extends AbstractCalendarRepository {
   }
 
   @override
-  Future<List<Event>> getEventsForDay(DateTime dateTime) async {
+  Future<List<Event>> getEventsForDay({required DateTime dateTime}) async {
+    final String formattedDate = dateTime.toIso8601String().substring(0, 23);
     final List<Map<String, dynamic>> maps = await _database!.query(
       'events',
       where: 'dateTime = ?',
-      whereArgs: [dateTime.toIso8601String()],
+      whereArgs: [formattedDate],
     );
-
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
     });
-  }
-
-  @override
-  Future<int> getEventCountForDay(DateTime dateTime) async {
-    final List<Map<String, dynamic>> maps = await _database!.query(
-      'events',
-      columns: ['id'],
-      where: 'dateTime = ?',
-      whereArgs: [dateTime.toIso8601String()],
-    );
-    return maps.length;
   }
 
   @override

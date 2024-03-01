@@ -6,19 +6,8 @@ abstract class CalendarEvent extends Equatable {
 
 class LoadCalendar extends CalendarEvent {
   final Completer? completer;
-  const LoadCalendar({
-    this.completer,
-  });
+  const LoadCalendar({this.completer});
 
   @override
-  List<Object> get props => [];
-}
-
-class LoadEventsForDay extends CalendarEvent {
-  final DateTime selectedDay;
-
-  const LoadEventsForDay(this.selectedDay);
-
-  @override
-  List<Object?> get props => [selectedDay];
+  List<Object?> get props => [completer];
 }

@@ -3,16 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/view/calendar_screen.dart';
+import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/repositories/calendar/abstarct_calendar_repository.dart';
 import 'package:keym_calendar/repositories/calendar/calendar_repository.dart';
-import '../router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Відкриття бази даних
-  // final calendarRepository = CalendarRepository();
-  // await calendarRepository.open();
   GetIt.I.registerLazySingleton<AbstractCalendarRepository>(
     () => CalendarRepository(),
   );
@@ -30,14 +26,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<CalendarBloc>(
           create: (context) => CalendarBloc(CalendarRepository()),
         ),
+        BlocProvider<DayEventsBloc>(
+          create: (context) => DayEventsBloc(CalendarRepository()),
+        ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Calendar',
         theme: ThemeData(
           primarySwatch: Colors.purple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        onGenerateRoute: AppRouter.generateRoute,
         home: const CalendarScreen(),
       ),
     );

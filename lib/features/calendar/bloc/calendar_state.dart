@@ -22,12 +22,3 @@ class CalendarLoaded extends CalendarState {
   @override
   List<Object> get props => [events];
 }
-
-class EventsForDayLoaded extends CalendarState {
-  final List<Event> events;
-
-  const EventsForDayLoaded(this.events);
-
-  @override
-  List<Object?> get props => [events];
-}
