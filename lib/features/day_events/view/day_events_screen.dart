@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/day_events/widgets/event_card.dart';
+import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 class DayEventsScreen extends StatefulWidget {
   final DateTime? selectedDate;
@@ -32,11 +33,18 @@ class _EventListScreenState extends State<DayEventsScreen> {
         bloc: _dayEventsBloc,
         builder: (context, state) {
           if (state is DayEventsLoaded) {
-            return state.events.isNotEmpty
-                ? ListView.builder(
-                    itemBuilder: (context, index) =>
-                        EventCard(event: state.events[index]),
-                    itemCount: state.events.length,
+            List<Event> sortedEvents = state.events.toList()
+              ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+            return sortedEvents.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: ListView.builder(
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: EventCard(event: sortedEvents[index]),
+                      ),
+                      itemCount: sortedEvents.length,
+                    ),
                   )
                 : Center(
                     child: Text(
