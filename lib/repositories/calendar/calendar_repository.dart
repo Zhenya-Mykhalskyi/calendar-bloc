@@ -43,7 +43,8 @@ class CalendarRepository {
   }
 
   Future<List<Event>> getEventsForDay({required DateTime dateTime}) async {
-    final String formattedDate = dateTime.toIso8601String().substring(0, 23);
+    final String formattedDate = Event.dateFormat.format(dateTime);
+
     final List<Map<String, dynamic>> maps = await _database!.query(
       'events',
       where: 'dateTime = ?',

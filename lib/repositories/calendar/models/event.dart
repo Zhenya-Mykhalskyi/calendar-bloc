@@ -1,4 +1,8 @@
+import 'package:intl/intl.dart';
+
 class Event {
+  static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
+
   final String id;
   final DateTime dateTime;
   final String title;
@@ -24,9 +28,10 @@ class Event {
   }
 
   Map<String, dynamic> toMap() {
+    String formattedDateTime = dateFormat.format(dateTime);
     return {
       'id': id,
-      'dateTime': dateTime.toIso8601String(),
+      'dateTime': formattedDateTime,
       'title': title,
       'description': description,
       'photoPath': photoPath ?? '',
