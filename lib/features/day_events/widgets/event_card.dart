@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:keym_calendar/features/day_events/view/event_detail_screen.dart';
+import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 class EventCard extends StatelessWidget {
@@ -10,6 +11,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDateTime = DateTimeHelper.formatDateTime(event.dateTime);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -36,7 +38,7 @@ class EventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(event.description),
-              Text(event.dateTime.toString()),
+              Text(formattedDateTime),
             ],
           ),
         ),

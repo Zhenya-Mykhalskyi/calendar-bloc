@@ -1,8 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:keym_calendar/helpers/date_formater.dart';
 
 class Event {
-  static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
-
   final String id;
   final DateTime dateTime;
   final String title;
@@ -18,9 +17,11 @@ class Event {
   });
 
   factory Event.fromMap(Map<String, dynamic> map) {
+    DateTime formattedDateTime =
+        DateFormat("yyyy-MM-dd HH:mm").parse(map['dateTime']);
     return Event(
       id: map['id'],
-      dateTime: DateTime.parse(map['dateTime']),
+      dateTime: formattedDateTime,
       title: map['title'],
       description: map['description'],
       photoPath: map['photoPath'] ?? '',
@@ -28,7 +29,7 @@ class Event {
   }
 
   Map<String, dynamic> toMap() {
-    String formattedDateTime = dateFormat.format(dateTime);
+    String formattedDateTime = DateTimeHelper.formatDateTime(dateTime);
     return {
       'id': id,
       'dateTime': formattedDateTime,

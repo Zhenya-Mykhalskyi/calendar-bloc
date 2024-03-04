@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 class EventDetailScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class EventDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDateTime = DateTimeHelper.formatDateTime(event.dateTime);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Event Details'),
@@ -37,7 +39,7 @@ class EventDetailScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 18),
                 ),
                 Text(
-                  'Date: ${event.dateTime.toString()}',
+                  'Date: $formattedDateTime',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],

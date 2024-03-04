@@ -39,8 +39,8 @@ class _EventListScreenState extends State<DayEventsScreen> {
                     itemCount: state.events.length,
                   )
                 : Center(
-                    child:
-                        Text('You have no events for ${widget.selectedDate}'),
+                    child: Text(
+                        'You have no events for ${widget.selectedDate?.toString().split(' ')[0]}'),
                   );
           } else {
             return const CircularProgressIndicator();

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -43,12 +44,16 @@ class CalendarRepository {
   }
 
   Future<List<Event>> getEventsForDay({required DateTime dateTime}) async {
-    final String formattedDate = Event.dateFormat.format(dateTime);
+    final String formattedStartDate = DateTimeHelper.formatDateTime(
+        DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0));
+
+    final String formattedEndDate = DateTimeHelper.formatDateTime(
+        DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59));
 
     final List<Map<String, dynamic>> maps = await _database!.query(
       'events',
-      where: 'dateTime = ?',
-      whereArgs: [formattedDate],
+      where: 'dateTime >= ? AND dateTime <= ?',
+      whereArgs: [formattedStartDate, formattedEndDate],
     );
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
