@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keym_calendar/features/calendar/view/add_event_screen.dart';
+import 'package:keym_calendar/features/add_event/view/add_event_screen.dart';
 
 class AddEventButton extends StatelessWidget {
   const AddEventButton({

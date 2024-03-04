@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/day_events/widgets/event_card.dart';
-import 'package:keym_calendar/repositories/calendar/abstarct_calendar_repository.dart';
 
 class DayEventsScreen extends StatefulWidget {
   final DateTime? selectedDate;
@@ -16,32 +13,35 @@ class DayEventsScreen extends StatefulWidget {
 }
 
 class _EventListScreenState extends State<DayEventsScreen> {
-  final _dayEventsBloc = DayEventsBloc(
-    GetIt.I<AbstractCalendarRepository>(),
-  );
+  late DayEventsBloc _dayEventsBloc;
 
   @override
   void initState() {
-    log(widget.selectedDate!.toIso8601String());
-    _dayEventsBloc.add(LoadEventsForDay(selectedDay: widget.selectedDate));
     super.initState();
+    _dayEventsBloc = BlocProvider.of<DayEventsBloc>(context);
+    _dayEventsBloc.add(LoadEventsForDay(selectedDay: widget.selectedDate));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('evet list '),
+        title: const Text('Events list'),
       ),
       body: BlocBuilder<DayEventsBloc, DayEventsState>(
         bloc: _dayEventsBloc,
         builder: (context, state) {
           if (state is DayEventsLoaded) {
-            return ListView.builder(
-              itemBuilder: (context, index) =>
-                  EventCard(event: state.events[index]),
-              itemCount: state.events.length,
-            );
+            return state.events.isNotEmpty
+                ? ListView.builder(
+                    itemBuilder: (context, index) =>
+                        EventCard(event: state.events[index]),
+                    itemCount: state.events.length,
+                  )
+                : Center(
+                    child:
+                        Text('You have no events for ${widget.selectedDate}'),
+                  );
           } else {
             return const CircularProgressIndicator();
           }

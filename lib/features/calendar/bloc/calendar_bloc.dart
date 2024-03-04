@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keym_calendar/repositories/calendar/abstarct_calendar_repository.dart';
+
+import 'package:keym_calendar/repositories/calendar/calendar_repository.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 part 'calendar_event.dart';
@@ -12,20 +12,48 @@ part 'calendar_state.dart';
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc(this._calendarRepository) : super(CalendarInitial()) {
     on<LoadCalendar>(_load);
+    on<AddEvent>(_addEvent);
   }
-  final AbstractCalendarRepository _calendarRepository;
 
-  Future<void> _load(
-    LoadCalendar event,
-    Emitter<CalendarState> emit,
-  ) async {
-    try {
-      if (!_calendarRepository.isDatabaseInitialized) {
+  final CalendarRepository _calendarRepository;
+
+  void _load(LoadCalendar event, Emitter<CalendarState> emit) async {
+    if (!_calendarRepository.isDatabaseInitialized) {
+      emit(CalendarLoading());
+      try {
         await _calendarRepository.open();
+      } catch (e) {
+        log(e.toString());
+        return;
       }
+    }
+
+    try {
       final events = await _calendarRepository.getAllEvents();
       emit(CalendarLoaded(events: events));
-      log(events[2].dateTime.toIso8601String());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _addEvent(AddEvent event, Emitter<CalendarState> emit) async {
+    if (!_calendarRepository.isDatabaseInitialized) {
+      emit(CalendarLoading());
+      try {
+        await _calendarRepository.open();
+      } catch (e) {
+        log(e.toString());
+        return;
+      }
+    }
+
+    try {
+      await _calendarRepository.insertEvent(event.event);
+      final currentState = state;
+      if (currentState is CalendarLoaded) {
+        final updatedEvents = List.of(currentState.events)..add(event.event);
+        emit(CalendarLoaded(events: updatedEvents));
+      }
     } catch (e) {
       log(e.toString());
     }

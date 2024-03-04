@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:keym_calendar/repositories/calendar/models/event.dart';
+
 class EventDetailScreen extends StatelessWidget {
-  final String imagePath;
-  final String title;
-  final String description;
-  final DateTime date;
+  final Event event;
 
   const EventDetailScreen({
     super.key,
-    required this.imagePath,
-    required this.title,
-    required this.description,
-    required this.date,
+    required this.event,
   });
 
   @override
@@ -23,25 +19,25 @@ class EventDetailScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(imagePath),
+          Hero(tag: event.id, child: Image.asset(event.photoPath!)),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  event.title,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  description,
+                  event.description,
                   style: const TextStyle(fontSize: 18),
                 ),
                 Text(
-                  'Date: ${date.toString()}', // You may want to format the date here
+                  'Date: ${event.dateTime.toString()}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
