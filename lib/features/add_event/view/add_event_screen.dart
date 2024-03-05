@@ -14,8 +14,10 @@ import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 class AddEventScreen extends StatefulWidget {
   final Event? event;
+  final bool? isDetailScreenEdit;
 
-  const AddEventScreen({Key? key, this.event}) : super(key: key);
+  const AddEventScreen({Key? key, this.event, this.isDetailScreenEdit})
+      : super(key: key);
 
   @override
   State<AddEventScreen> createState() => _AddEventScreenState();
@@ -76,6 +78,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: SaveEventButton(
+              isDetailScreenEdit: widget.isDetailScreenEdit,
               onSave: () => _saveEvent(context),
             ),
           )

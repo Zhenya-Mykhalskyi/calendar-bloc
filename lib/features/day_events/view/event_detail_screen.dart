@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:keym_calendar/features/add_event/view/add_event_screen.dart';
 
 import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
@@ -15,45 +15,106 @@ class EventDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDateTime = DateTimeHelper.formatDateTime(event.dateTime);
+    final formattedDate = DateTimeHelper.formatDateTimeOnlyDate(event.dateTime);
+    final formattedTime = DateTimeHelper.formatDateTimeOnlyTime(event.dateTime);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Event Details'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Hero(
-            tag: event.id,
-            child: Image.file(
-              File(event.photoPath!),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  event.title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  event.description,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                Text(
-                  'Date: $formattedDateTime',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
+        actions: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddEventScreen(
+                        event: event,
+                        isDetailScreenEdit: true,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.delete),
+              )
+            ],
+          )
         ],
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      event.title,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  DateTimeRow(
+                      formattedDateTime: formattedDate, icon: Icons.date_range),
+                  const SizedBox(height: 7),
+                  DateTimeRow(
+                      formattedDateTime: formattedTime, icon: Icons.timer),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      event.description,
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.file(
+                  fit: BoxFit.cover,
+                  File(event.photoPath!),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DateTimeRow extends StatelessWidget {
+  const DateTimeRow({
+    super.key,
+    required this.formattedDateTime,
+    required this.icon,
+  });
+
+  final String formattedDateTime;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon),
+        Text(
+          formattedDateTime,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

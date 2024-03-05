@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +15,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDateTime = DateTimeHelper.formatDateTime(event.dateTime);
+    final eventTime = DateTimeHelper.formatDateTimeOnlyTime(event.dateTime);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -34,21 +32,23 @@ class EventCard extends StatelessWidget {
       },
       child: Card(
         child: ListTile(
-          leading: event.photoPath == ''
-              ? const Placeholder()
-              : Hero(
-                  tag: event.id,
-                  child: Image.file(
-                    File(event.photoPath!),
-                  ),
-                ),
-          title: Text(event.title),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(event.description),
-              Text(formattedDateTime),
-            ],
+          leading: Text(
+            eventTime,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).primaryColor),
+          ),
+          title: Text(
+            event.title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            event.description,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
