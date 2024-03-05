@@ -59,6 +59,9 @@ Future<dynamic> showUpdateDeleteBottomSheet(
                             BlocProvider.of<DayEventsBloc>(context).add(
                                 LoadEventsForDay(selectedDay: event.dateTime));
                             Navigator.of(context).pop();
+                            if (isDetailScreenEdit == true) {
+                              Navigator.of(context).pop();
+                            }
                           },
                           child: const Text('Delete'),
                         ),
