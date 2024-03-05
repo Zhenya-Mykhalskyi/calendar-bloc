@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:keym_calendar/features/add_event/view/add_event_screen.dart';
 
+import 'package:keym_calendar/features/day_events/widgets/update_delete_bottom_sheet.dart';
 import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
@@ -24,21 +24,11 @@ class EventDetailScreen extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => AddEventScreen(
-                        event: event,
-                        isDetailScreenEdit: true,
-                      ),
-                    ),
-                  );
+                  showUpdateDeleteBottomSheet(
+                      context: context, event: event, isDetailScreenEdit: true);
                 },
-                icon: const Icon(Icons.edit),
+                icon: const Icon(Icons.edit_note),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.delete),
-              )
             ],
           )
         ],
