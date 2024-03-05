@@ -66,15 +66,16 @@ class EventDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.file(
-                  fit: BoxFit.cover,
-                  File(event.photoPath!),
+            if (event.photoPath != null)
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.file(
+                    fit: BoxFit.cover,
+                    File(event.photoPath!),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

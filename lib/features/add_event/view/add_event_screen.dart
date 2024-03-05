@@ -78,8 +78,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: SaveEventButton(
-              isDetailScreenEdit: widget.isDetailScreenEdit,
               onSave: () => _saveEvent(context),
+              isDetailScreenEdit: widget.isDetailScreenEdit,
             ),
           )
         ],

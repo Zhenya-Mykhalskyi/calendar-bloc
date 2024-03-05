@@ -24,7 +24,7 @@ class Event {
       dateTime: formattedDateTime,
       title: map['title'],
       description: map['description'],
-      photoPath: map['photoPath'] ?? '',
+      photoPath: map['photoPath'],
     );
   }
 
@@ -35,7 +35,7 @@ class Event {
       'dateTime': formattedDateTime,
       'title': title,
       'description': description,
-      'photoPath': photoPath ?? '',
+      'photoPath': photoPath,
     };
   }
 }
