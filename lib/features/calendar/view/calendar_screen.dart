@@ -18,9 +18,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    super.initState();
     _calendarBloc = BlocProvider.of<CalendarBloc>(context);
     _calendarBloc.add(LoadCalendar());
+    super.initState();
   }
 
   @override

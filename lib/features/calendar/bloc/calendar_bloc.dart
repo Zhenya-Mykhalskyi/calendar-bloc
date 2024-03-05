@@ -13,6 +13,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc(this._calendarRepository) : super(CalendarInitial()) {
     on<LoadCalendar>(_load);
     on<AddEvent>(_addEvent);
+    on<DeleteEvent>(_deleteEvent);
+    on<UpdateEvent>(_updateEvent);
   }
 
   final CalendarRepository _calendarRepository;
@@ -53,6 +55,41 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       if (currentState is CalendarLoaded) {
         final updatedEvents = List.of(currentState.events)..add(event.event);
         emit(CalendarLoaded(events: updatedEvents));
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _deleteEvent(
+      DeleteEvent event, Emitter<CalendarState> emit) async {
+    try {
+      await _calendarRepository.deleteEvent(event.event.id);
+      final currentState = state;
+      if (currentState is CalendarLoaded) {
+        final updatedEvents = List.of(currentState.events)
+          ..removeWhere((e) => e.id == event.event.id);
+        emit(CalendarLoaded(events: updatedEvents));
+
+        log(updatedEvents.toString());
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _updateEvent(
+      UpdateEvent event, Emitter<CalendarState> emit) async {
+    try {
+      await _calendarRepository.updateEvent(event.event);
+      final currentState = state;
+      if (currentState is CalendarLoaded) {
+        final updatedEvents = List.of(currentState.events);
+        final index = updatedEvents.indexWhere((e) => e.id == event.event.id);
+        if (index != -1) {
+          updatedEvents[index] = event.event;
+          emit(CalendarLoaded(events: updatedEvents));
+        }
       }
     } catch (e) {
       log(e.toString());

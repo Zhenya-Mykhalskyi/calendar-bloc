@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickImage extends StatefulWidget {
   final String? currentImagePath;
-  final void Function(String? imagePath) onImagePicked;
+  final void Function(File? image) onImagePicked;
   const PickImage(
       {super.key, required this.onImagePicked, required this.currentImagePath});
 
@@ -12,16 +15,24 @@ class PickImage extends StatefulWidget {
 }
 
 class _PickImageState extends State<PickImage> {
-  String? _pickedImagePath;
+  File? _pickedImage;
 
   Future<void> _getImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      _pickedImagePath = pickedFile.path;
-      widget.onImagePicked(_pickedImagePath);
+      final appDir = await path_provider.getApplicationDocumentsDirectory();
+      final fileName = path.basename(pickedFile.path);
+      final savedImage =
+          await File(pickedFile.path).copy('${appDir.path}/$fileName');
+
+      setState(() {
+        _pickedImage = savedImage;
+      });
+      widget.onImagePicked(_pickedImage);
     }
+    return;
   }
 
   @override
@@ -35,7 +46,7 @@ class _PickImageState extends State<PickImage> {
           color: Colors.black,
         ),
       ),
-      child: _pickedImagePath == null
+      child: _pickedImage == null
           ? widget.currentImagePath == null
               ? InkWell(
                   onTap: _getImageFromGallery,
@@ -52,8 +63,8 @@ class _PickImageState extends State<PickImage> {
                   onTap: _getImageFromGallery,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      _pickedImagePath!,
+                    child: Image.file(
+                      File(widget.currentImagePath!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -62,8 +73,8 @@ class _PickImageState extends State<PickImage> {
               onTap: _getImageFromGallery,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  _pickedImagePath!,
+                child: Image.file(
+                  _pickedImage!,
                   fit: BoxFit.cover,
                 ),
               ),

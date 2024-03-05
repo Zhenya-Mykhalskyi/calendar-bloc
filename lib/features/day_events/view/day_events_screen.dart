@@ -18,9 +18,9 @@ class _EventListScreenState extends State<DayEventsScreen> {
 
   @override
   void initState() {
-    super.initState();
     _dayEventsBloc = BlocProvider.of<DayEventsBloc>(context);
     _dayEventsBloc.add(LoadEventsForDay(selectedDay: widget.selectedDate));
+    super.initState();
   }
 
   @override

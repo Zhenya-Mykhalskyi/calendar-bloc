@@ -18,3 +18,21 @@ class AddEvent extends CalendarEvent {
   @override
   List<Object> get props => [event];
 }
+
+class DeleteEvent extends CalendarEvent {
+  final Event event;
+
+  DeleteEvent(this.event);
+
+  @override
+  List<Object> get props => [event];
+}
+
+class UpdateEvent extends CalendarEvent {
+  final Event event;
+
+  UpdateEvent(this.event);
+
+  @override
+  List<Object> get props => [event];
+}

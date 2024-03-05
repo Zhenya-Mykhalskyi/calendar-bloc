@@ -5,7 +5,13 @@ import 'package:keym_calendar/helpers/date_formater.dart';
 
 class DatePicker extends StatefulWidget {
   final void Function(DateTime? dateTime) onDatePicked;
-  const DatePicker({super.key, required this.onDatePicked});
+  final DateTime? currentDateTime;
+
+  const DatePicker({
+    super.key,
+    required this.onDatePicked,
+    required this.currentDateTime,
+  });
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -50,7 +56,7 @@ class _DatePickerState extends State<DatePicker> {
           const Icon(Icons.timer),
           const SizedBox(width: 10),
           Text(
-            'Selected Date: ${DateTimeHelper.formatDateTime(_selectedDate)}',
+            'Selected Date: ${DateTimeHelper.formatDateTime(widget.currentDateTime ?? _selectedDate)}',
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:keym_calendar/helpers/date_formater.dart';
@@ -21,7 +23,12 @@ class EventDetailScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Hero(tag: event.id, child: Image.asset(event.photoPath!)),
+          Hero(
+            tag: event.id,
+            child: Image.file(
+              File(event.photoPath!),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

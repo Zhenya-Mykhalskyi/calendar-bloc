@@ -77,7 +77,7 @@ class CalendarRepository {
     );
   }
 
-  Future<void> deleteEvent(int id) async {
+  Future<void> deleteEvent(String id) async {
     await _database!.delete(
       'events',
       where: 'id = ?',

@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
+import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/add_event/widgets/date_time_picker.dart';
-import 'package:keym_calendar/features/add_event/widgets/pick_image.dart';
+import 'package:keym_calendar/features/add_event/widgets/image_picker.dart';
 import 'package:keym_calendar/features/add_event/widgets/save_event_button.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
 class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({Key? key}) : super(key: key);
+  final Event? event;
+
+  const AddEventScreen({Key? key, this.event}) : super(key: key);
 
   @override
   State<AddEventScreen> createState() => _AddEventScreenState();
@@ -18,12 +25,22 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  String? _imagePath;
+  String? _cirrentImagePath;
+  File? _pickedImage;
 
-  void _handleImagePicked(String? imagePath) {
-    setState(() {
-      _imagePath = imagePath;
-    });
+  @override
+  void initState() {
+    super.initState();
+    if (widget.event != null) {
+      _titleController.text = widget.event!.title;
+      _descriptionController.text = widget.event!.description;
+      _selectedDate = widget.event!.dateTime;
+      _cirrentImagePath = widget.event!.photoPath;
+    }
+  }
+
+  void _handleImagePicked(File? image) {
+    _pickedImage = image;
   }
 
   void _handleDatePicked(DateTime? dateTime) {
@@ -32,21 +49,34 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
   }
 
+  void _saveEvent(BuildContext context) {
+    final event = Event(
+      id: widget.event?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _titleController.text,
+      description: _descriptionController.text,
+      dateTime: _selectedDate,
+      photoPath: _pickedImage != null ? _pickedImage!.path : _cirrentImagePath,
+    );
+
+    if (widget.event == null) {
+      BlocProvider.of<CalendarBloc>(context).add(AddEvent(event));
+    } else {
+      BlocProvider.of<CalendarBloc>(context).add(UpdateEvent(event));
+      BlocProvider.of<DayEventsBloc>(context)
+          .add(LoadEventsForDay(selectedDay: event.dateTime));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Event'),
+        title: Text(widget.event == null ? 'Add Event' : 'Update Event'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: SaveEventButton(
-              event: Event(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                  dateTime: _selectedDate,
-                  photoPath: _imagePath),
+              onSave: () => _saveEvent(context),
             ),
           )
         ],
@@ -57,7 +87,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             PickImage(
-                onImagePicked: _handleImagePicked, currentImagePath: null),
+              onImagePicked: _handleImagePicked,
+              currentImagePath: _cirrentImagePath,
+            ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(labelText: 'Event Title'),
@@ -70,6 +102,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: DatePicker(
                 onDatePicked: _handleDatePicked,
+                currentDateTime: _selectedDate,
               ),
             ),
             ElevatedButton(
