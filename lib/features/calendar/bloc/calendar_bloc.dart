@@ -11,7 +11,7 @@ part 'calendar_state.dart';
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc(this._calendarRepository) : super(CalendarInitial()) {
-    on<LoadCalendar>(_load);
+    on<LoadCalendar>(_loadEvents);
     on<AddEvent>(_addEvent);
     on<DeleteEvent>(_deleteEvent);
     on<UpdateEvent>(_updateEvent);
@@ -19,7 +19,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   final CalendarRepository _calendarRepository;
 
-  void _load(LoadCalendar event, Emitter<CalendarState> emit) async {
+  void _loadEvents(LoadCalendar event, Emitter<CalendarState> emit) async {
     if (!_calendarRepository.isDatabaseInitialized) {
       emit(CalendarLoading());
       try {
@@ -61,23 +61,6 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     }
   }
 
-  Future<void> _deleteEvent(
-      DeleteEvent event, Emitter<CalendarState> emit) async {
-    try {
-      await _calendarRepository.deleteEvent(event.event.id);
-      final currentState = state;
-      if (currentState is CalendarLoaded) {
-        final updatedEvents = List.of(currentState.events)
-          ..removeWhere((e) => e.id == event.event.id);
-        emit(CalendarLoaded(events: updatedEvents));
-
-        log(updatedEvents.toString());
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
   Future<void> _updateEvent(
       UpdateEvent event, Emitter<CalendarState> emit) async {
     try {
@@ -90,6 +73,23 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
           updatedEvents[index] = event.event;
           emit(CalendarLoaded(events: updatedEvents));
         }
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _deleteEvent(
+      DeleteEvent event, Emitter<CalendarState> emit) async {
+    try {
+      await _calendarRepository.deleteEvent(event.event.id);
+      final currentState = state;
+      if (currentState is CalendarLoaded) {
+        final updatedEvents = List.of(currentState.events)
+          ..removeWhere((e) => e.id == event.event.id);
+        emit(CalendarLoaded(events: updatedEvents));
+
+        log(updatedEvents.toString());
       }
     } catch (e) {
       log(e.toString());
