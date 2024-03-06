@@ -10,6 +10,7 @@ import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/add_event/widgets/date_time_picker.dart';
 import 'package:keym_calendar/features/add_event/widgets/image_picker.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
+import 'package:keym_calendar/features/add_event/widgets/custom_text_form_field.dart';
 
 class AddEventScreen extends StatefulWidget {
   final Event? event;
@@ -103,39 +104,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 onImagePicked: _handleImagePicked,
                 currentImagePath: _currentImagePath,
               ),
-              TextFormField(
+              CustomTextFormField(
                 controller: _titleController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  if (value.length > 70) {
-                    return 'Title should not exceed 70 characters';
-                  }
-                  return null;
-                },
-                autocorrect: false,
-                decoration: const InputDecoration(labelText: 'Event Title'),
+                maxLength: 70,
+                labelText: 'Event Title',
               ),
-              TextFormField(
+              CustomTextFormField(
                 controller: _descriptionController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  if (value.length > 400) {
-                    return 'Description should not exceed 400 characters';
-                  }
-                  return null;
-                },
-                autocorrect: false,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
                 maxLength: 400,
-                decoration: const InputDecoration(
-                  labelText: 'Event Description',
-                  counterText: null,
-                ),
+                labelText: 'Event Description',
+                isDescription: true,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
