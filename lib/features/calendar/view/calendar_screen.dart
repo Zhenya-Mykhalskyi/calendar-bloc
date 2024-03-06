@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/widgets/add_event_button.dart';
-import 'package:keym_calendar/features/day_events/view/day_events_screen.dart';
+import 'package:keym_calendar/features/day_events/view/day_events_list_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -60,7 +60,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         onDaySelected: (selectedDay, focusedDay) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => DayEventsScreen(
+                              builder: (context) => DayEventsListScreen(
                                 selectedDate: selectedDay,
                               ),
                             ),

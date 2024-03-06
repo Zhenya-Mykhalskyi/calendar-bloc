@@ -5,15 +5,15 @@ import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/day_events/widgets/event_card.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
-class DayEventsScreen extends StatefulWidget {
+class DayEventsListScreen extends StatefulWidget {
   final DateTime? selectedDate;
-  const DayEventsScreen({super.key, this.selectedDate});
+  const DayEventsListScreen({super.key, this.selectedDate});
 
   @override
-  State<DayEventsScreen> createState() => _EventListScreenState();
+  State<DayEventsListScreen> createState() => _EventListScreenState();
 }
 
-class _EventListScreenState extends State<DayEventsScreen> {
+class _EventListScreenState extends State<DayEventsListScreen> {
   late DayEventsBloc _dayEventsBloc;
 
   @override
