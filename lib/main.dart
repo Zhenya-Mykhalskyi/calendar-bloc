@@ -5,6 +5,7 @@ import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/view/calendar_screen.dart';
 import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/repositories/calendar/calendar_repository.dart';
+import 'package:keym_calendar/theme/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,10 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Calendar',
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: MyThemes.darkTheme,
         home: const CalendarScreen(),
       ),
     );

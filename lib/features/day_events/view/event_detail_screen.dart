@@ -46,17 +46,21 @@ class EventDetailScreen extends StatelessWidget {
                     child: Text(
                       event.title,
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: 27,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   const Divider(thickness: 0.2),
+                  const SizedBox(height: 10),
                   DateTimeRow(
-                      formattedDateTime: formattedDate, icon: Icons.date_range),
-                  const SizedBox(height: 7),
+                      formattedDateTime: formattedDate,
+                      icon: Icons.calendar_today),
+                  const SizedBox(height: 15),
                   DateTimeRow(
-                      formattedDateTime: formattedTime, icon: Icons.timer),
+                      formattedDateTime: formattedTime,
+                      icon: Icons.timer_outlined),
+                  const SizedBox(height: 10),
                   const Divider(thickness: 0.2),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -70,7 +74,8 @@ class EventDetailScreen extends StatelessWidget {
             ),
             if (event.photoPath != null)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40),

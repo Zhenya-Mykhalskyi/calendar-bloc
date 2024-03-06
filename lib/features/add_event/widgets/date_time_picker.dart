@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:keym_calendar/helpers/date_formater.dart';
+import 'package:keym_calendar/theme/app_colors.dart';
 
-class DatePicker extends StatefulWidget {
+class DateTimePicker extends StatefulWidget {
   final void Function(DateTime? dateTime) onDatePicked;
   final bool isTimePicker;
   final DateTime? currentDateTime;
 
-  const DatePicker({
+  const DateTimePicker({
     Key? key,
     required this.onDatePicked,
     required this.currentDateTime,
@@ -15,10 +16,10 @@ class DatePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DatePicker> createState() => _DatePickerState();
+  State<DateTimePicker> createState() => _DatePickerState();
 }
 
-class _DatePickerState extends State<DatePicker> {
+class _DatePickerState extends State<DateTimePicker> {
   DateTime _selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -75,8 +76,11 @@ class _DatePickerState extends State<DatePicker> {
           widget.isTimePicker ? _selectTime(context) : _selectDate(context),
       child: Row(
         children: [
-          Icon(widget.isTimePicker ? Icons.timer : Icons.calendar_today),
-          const SizedBox(width: 10),
+          Icon(
+            widget.isTimePicker ? Icons.timer_outlined : Icons.calendar_today,
+            color: AppColors.primaryColor,
+          ),
+          const SizedBox(width: 8),
           Text(
             widget.isTimePicker
                 ? DateTimeHelper.formatDateTimeOnlyTime(

@@ -27,6 +27,7 @@ class _EventListScreenState extends State<DayEventsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Events list'),
       ),
       body: BlocBuilder<DayEventsBloc, DayEventsState>(

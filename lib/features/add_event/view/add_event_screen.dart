@@ -83,6 +83,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.event == null ? 'Add Event' : 'Update Event'),
         actions: [
           Padding(
@@ -120,12 +121,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    DatePicker(
+                    DateTimePicker(
                       isTimePicker: false,
                       onDatePicked: _handleDateTimePicked,
                       currentDateTime: _selectedDate,
                     ),
-                    DatePicker(
+                    DateTimePicker(
                       isTimePicker: true,
                       onDatePicked: _handleDateTimePicked,
                       currentDateTime: _selectedDate,

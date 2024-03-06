@@ -9,10 +9,7 @@ class AddEventButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
-        Icons.add,
-        color: Colors.black,
-      ),
+      icon: const Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const AddEventScreen(),

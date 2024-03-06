@@ -4,6 +4,7 @@ import 'package:keym_calendar/features/day_events/view/event_detail_screen.dart'
 import 'package:keym_calendar/features/day_events/widgets/update_delete_bottom_sheet.dart';
 import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
+import 'package:keym_calendar/theme/app_colors.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -28,19 +29,23 @@ class EventCard extends StatelessWidget {
         showUpdateDeleteBottomSheet(context: context, event: event);
       },
       child: Card(
+        color: AppColors.cardColor,
         child: ListTile(
           leading: Text(
             eventTime,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor),
+                color: AppColors.primaryColor),
           ),
-          title: Text(
-            event.title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          title: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              event.title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           subtitle: Text(
             event.description,

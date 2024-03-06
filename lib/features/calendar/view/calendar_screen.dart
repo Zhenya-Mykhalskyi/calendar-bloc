@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:keym_calendar/theme/app_colors.dart';
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/widgets/add_event_button.dart';
 import 'package:keym_calendar/features/day_events/view/day_events_list_screen.dart';
@@ -50,11 +51,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: TableCalendar(
-                        calendarFormat: calendarFormat,
                         headerStyle: const HeaderStyle(
                           formatButtonVisible: false,
                           titleCentered: true,
                         ),
+                        calendarStyle: CalendarStyle(
+                          weekendTextStyle:
+                              const TextStyle(color: AppColors.whiteColor),
+                          outsideTextStyle: TextStyle(
+                              color: AppColors.whiteColor.withOpacity(0.4)),
+                        ),
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        calendarFormat: calendarFormat,
                         rowHeight: 55,
                         daysOfWeekHeight: 35,
                         onDaySelected: (selectedDay, focusedDay) {
@@ -87,12 +95,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     return Padding(
                                       padding: EdgeInsets.only(
                                           right: index < 2 ? 2 : 0),
-                                      child: const Icon(
-                                        Icons.circle,
-                                        size: 10,
-                                        color:
-                                            Color.fromARGB(255, 110, 73, 139),
-                                      ),
+                                      child: const Icon(Icons.circle,
+                                          size: 10,
+                                          color: AppColors.primaryColor),
                                     );
                                   },
                                 ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:keym_calendar/theme/app_colors.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _PickImageState extends State<PickImage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: Theme.of(context).primaryColor,
+          color: AppColors.whiteColor,
         ),
       ),
       child: _pickedImage == null
@@ -56,7 +57,7 @@ class _PickImageState extends State<PickImage> {
                       padding: const EdgeInsets.all(25.0),
                       child: Icon(
                         Icons.add_a_photo,
-                        color: Theme.of(context).primaryColor.withOpacity(0.6),
+                        color: AppColors.whiteColor.withOpacity(0.6),
                         size: 60,
                       ),
                     ),
