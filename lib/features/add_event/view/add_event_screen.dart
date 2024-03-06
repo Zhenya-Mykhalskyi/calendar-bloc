@@ -23,10 +23,11 @@ class AddEventScreen extends StatefulWidget {
 }
 
 class _AddEventScreenState extends State<AddEventScreen> {
+  final _eventFormKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final _eventFormKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
+
   String? _currentImagePath;
   File? _pickedImage;
 
@@ -45,7 +46,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     _pickedImage = image;
   }
 
-  void _handleDatePicked(DateTime? dateTime) {
+  void _handleDateTimePicked(DateTime? dateTime) {
     setState(() {
       _selectedDate = dateTime!;
     });
@@ -97,7 +98,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
         child: Form(
           key: _eventFormKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               PickImage(
                 onImagePicked: _handleImagePicked,
@@ -139,9 +139,20 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: DatePicker(
-                  onDatePicked: _handleDatePicked,
-                  currentDateTime: _selectedDate,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    DatePicker(
+                      isTimePicker: false,
+                      onDatePicked: _handleDateTimePicked,
+                      currentDateTime: _selectedDate,
+                    ),
+                    DatePicker(
+                      isTimePicker: true,
+                      onDatePicked: _handleDateTimePicked,
+                      currentDateTime: _selectedDate,
+                    ),
+                  ],
                 ),
               ),
               ElevatedButton(
