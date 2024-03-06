@@ -57,8 +57,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
       final event = Event(
         id: widget.event?.id ??
             DateTime.now().millisecondsSinceEpoch.toString(),
-        title: _titleController.text,
-        description: _descriptionController.text,
+        title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
         dateTime: _selectedDate,
         photoPath:
             _pickedImage != null ? _pickedImage!.path : _currentImagePath,
