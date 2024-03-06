@@ -67,12 +67,15 @@ class EventDetailScreen extends StatelessWidget {
               ),
             ),
             if (event.photoPath != null)
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.file(
-                    fit: BoxFit.cover,
-                    File(event.photoPath!),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: Image.file(
+                      fit: BoxFit.cover,
+                      File(event.photoPath!),
+                    ),
                   ),
                 ),
               ),
