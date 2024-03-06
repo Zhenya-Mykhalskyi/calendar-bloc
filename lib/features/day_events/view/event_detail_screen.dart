@@ -51,11 +51,13 @@ class EventDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const Divider(thickness: 0.2),
                   DateTimeRow(
                       formattedDateTime: formattedDate, icon: Icons.date_range),
                   const SizedBox(height: 7),
                   DateTimeRow(
                       formattedDateTime: formattedTime, icon: Icons.timer),
+                  const Divider(thickness: 0.2),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Text(
@@ -101,6 +103,7 @@ class DateTimeRow extends StatelessWidget {
     return Row(
       children: [
         Icon(icon),
+        const SizedBox(width: 7),
         Text(
           formattedDateTime,
           style: const TextStyle(
