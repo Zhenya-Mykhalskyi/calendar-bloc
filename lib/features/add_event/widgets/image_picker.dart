@@ -39,43 +39,46 @@ class _PickImageState extends State<PickImage> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.20,
-      margin: const EdgeInsets.only(top: 8, right: 10),
+      margin: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: Colors.black,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       child: _pickedImage == null
           ? widget.currentImagePath == null
-              ? InkWell(
-                  onTap: _getImageFromGallery,
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Theme.of(context).primaryColor.withOpacity(0.6),
-                      size: 60,
+              ? AspectRatio(
+                  aspectRatio: 1,
+                  child: InkWell(
+                    onTap: _getImageFromGallery,
+                    child: Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: Icon(
+                        Icons.add_a_photo,
+                        color: Theme.of(context).primaryColor.withOpacity(0.6),
+                        size: 60,
+                      ),
                     ),
                   ),
                 )
               : InkWell(
                   onTap: _getImageFromGallery,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(15),
                     child: Image.file(
                       File(widget.currentImagePath!),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 )
           : InkWell(
               onTap: _getImageFromGallery,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15),
                 child: Image.file(
                   _pickedImage!,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
