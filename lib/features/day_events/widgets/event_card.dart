@@ -31,6 +31,8 @@ class EventCard extends StatelessWidget {
       child: Card(
         color: AppColors.cardColor,
         child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
           leading: Text(
             eventTime,
             style: const TextStyle(

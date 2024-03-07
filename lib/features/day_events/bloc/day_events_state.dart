@@ -22,3 +22,12 @@ final class DayEventsLoaded extends DayEventsState {
   @override
   List<Object?> get props => [events];
 }
+
+class DayEventsLoadingError extends DayEventsState {
+  final String message;
+
+  const DayEventsLoadingError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

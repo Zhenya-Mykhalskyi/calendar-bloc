@@ -6,6 +6,7 @@ import 'package:keym_calendar/theme/app_colors.dart';
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/widgets/add_event_button.dart';
 import 'package:keym_calendar/features/day_events/view/day_events_list_screen.dart';
+import 'package:keym_calendar/widgets/custom_error_widget.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -108,6 +109,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ),
                     ),
                   ],
+                );
+              } else if (state is CalendarLoadingError) {
+                return CustomErrorWidget(
+                  errorMessage: state.message,
+                  onPressed: () {
+                    _calendarBloc.add(LoadCalendar());
+                  },
                 );
               } else {
                 return const Center(child: CircularProgressIndicator());

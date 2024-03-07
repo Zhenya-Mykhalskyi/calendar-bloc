@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
 import 'package:keym_calendar/features/day_events/widgets/event_card.dart';
+import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
+import 'package:keym_calendar/widgets/custom_error_widget.dart';
 
 class DayEventsListScreen extends StatefulWidget {
   final DateTime? selectedDate;
@@ -49,8 +51,16 @@ class _EventListScreenState extends State<DayEventsListScreen> {
                   )
                 : Center(
                     child: Text(
-                        'You have no events for ${widget.selectedDate?.toString().split(' ')[0]}'),
+                        'You have no events for ${DateTimeHelper.formatDateTimeOnlyDate(widget.selectedDate!)}'),
                   );
+          } else if (state is DayEventsLoadingError) {
+            return CustomErrorWidget(
+              errorMessage: state.message,
+              onPressed: () {
+                _dayEventsBloc
+                    .add(LoadEventsForDay(selectedDay: widget.selectedDate));
+              },
+            );
           } else {
             return const CircularProgressIndicator();
           }

@@ -34,7 +34,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       final events = await _calendarRepository.getAllEvents();
       emit(CalendarLoaded(events: events));
     } catch (e) {
-      log(e.toString());
+      emit(CalendarLoadingError(message: e.toString()));
     }
   }
 

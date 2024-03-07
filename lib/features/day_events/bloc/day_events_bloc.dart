@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:keym_calendar/repositories/calendar/calendar_repository.dart';
 import 'package:keym_calendar/repositories/calendar/models/event.dart';
 
@@ -27,7 +26,7 @@ class DayEventsBloc extends Bloc<DayEventsEvent, DayEventsState> {
           dateTime: event.selectedDay!);
       emit(DayEventsLoaded(events: events));
     } catch (e) {
-      log(e.toString());
+      emit(DayEventsLoadingError(message: e.toString()));
     }
   }
 }

@@ -20,3 +20,12 @@ class CalendarLoaded extends CalendarState {
   @override
   List<Object?> get props => [events];
 }
+
+class CalendarLoadingError extends CalendarState {
+  final String message;
+
+  CalendarLoadingError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
