@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/day_events/bloc/day_events_bloc.dart';
@@ -95,54 +93,51 @@ class _AddEventScreenState extends State<AddEventScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _eventFormKey,
-          child: Column(
-            children: [
-              PickImage(
-                onImagePicked: _handleImagePicked,
-                currentImagePath: _currentImagePath,
-              ),
-              CustomTextFormField(
-                controller: _titleController,
-                maxLength: 70,
-                labelText: 'Event Title',
-              ),
-              CustomTextFormField(
-                controller: _descriptionController,
-                maxLength: 400,
-                labelText: 'Event Description',
-                isDescription: true,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    DateTimePicker(
-                      isTimePicker: false,
-                      onDatePicked: _handleDateTimePicked,
-                      currentDateTime: _selectedDate,
-                    ),
-                    DateTimePicker(
-                      isTimePicker: true,
-                      onDatePicked: _handleDateTimePicked,
-                      currentDateTime: _selectedDate,
-                    ),
-                  ],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _eventFormKey,
+            child: Column(
+              children: [
+                PickImage(
+                  onImagePicked: _handleImagePicked,
+                  currentImagePath: _currentImagePath,
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  String databasesPath = await getDatabasesPath();
-                  String path = join(databasesPath, 'calendar_database.db');
-                  await deleteDatabase(path);
-                },
-                child: const Text('delete DB'),
-              ),
-            ],
+                CustomTextFormField(
+                  controller: _titleController,
+                  maxLength: 70,
+                  labelText: 'Event Title',
+                ),
+                CustomTextFormField(
+                  controller: _descriptionController,
+                  maxLength: 400,
+                  labelText: 'Event Description',
+                  isDescription: true,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      DateTimePicker(
+                        isTimePicker: false,
+                        onDatePicked: _handleDateTimePicked,
+                        currentDateTime: _selectedDate,
+                      ),
+                      DateTimePicker(
+                        isTimePicker: true,
+                        onDatePicked: _handleDateTimePicked,
+                        currentDateTime: _selectedDate,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
