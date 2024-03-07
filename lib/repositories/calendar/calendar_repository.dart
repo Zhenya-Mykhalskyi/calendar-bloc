@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:keym_calendar/helpers/date_formater.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:keym_calendar/helpers/date_formater.dart';
 import 'models/event.dart';
 
 class CalendarRepository {
@@ -22,14 +22,6 @@ class CalendarRepository {
       readOnly: false,
     );
   }
-
-  Future<void> deleteDB() async {
-    String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'calendar_database.db');
-    await deleteDatabase(path);
-  }
-
-  Future<void> close() async => _database!.close();
 
   Future<List<Event>> getAllEvents() async {
     if (!isDatabaseInitialized) {
@@ -83,5 +75,11 @@ class CalendarRepository {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<void> deleteDB() async {
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'calendar_database.db');
+    await deleteDatabase(path);
   }
 }

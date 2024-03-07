@@ -88,8 +88,6 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
         final updatedEvents = List.of(currentState.events)
           ..removeWhere((e) => e.id == event.event.id);
         emit(CalendarLoaded(events: updatedEvents));
-
-        log(updatedEvents.toString());
       }
     } catch (e) {
       log(e.toString());
