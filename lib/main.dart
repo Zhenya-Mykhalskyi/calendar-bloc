@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'package:keym_calendar/features/calendar/bloc/calendar_bloc.dart';
 import 'package:keym_calendar/features/calendar/view/calendar_screen.dart';
@@ -9,6 +12,12 @@ import 'package:keym_calendar/theme/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize sqflite for web
+  if (kIsWeb) {
+    databaseFactory = databaseFactoryFfiWeb;
+  }
+  
   runApp(const MyApp());
 }
 
